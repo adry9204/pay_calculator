@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Pay Calculator'),
     );
   }
 }
@@ -49,8 +49,25 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  double? _rate = 0;
+  double? _hours = 0;
+  double? _regular = 0;
+  double? _extra = 0;
+  double? _total = 0;
+  double? _tax = 0;
 
-  void _incrementCounter() {
+  //creating a controller to retrieve data from the Rate Text Field
+  final hoursController = TextEditingController();
+
+  //creating a controller to retrieve data from the Rate Text Field
+  final rateController = TextEditingController();
+  @override
+  void dispose() {
+    rateController.dispose();
+    super.dispose();
+  }
+
+  void _calculatePay() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -58,6 +75,21 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+      _rate = double.tryParse(rateController.text);
+      _hours = double.tryParse(hoursController.text);
+
+      if (_rate != null && _hours != null) {
+        if (_hours! >= 40) {
+          _regular = _rate! * 40;
+          _extra = (_hours! - 40) * (_rate! * 1.5);
+          _total = _regular! + _extra!;
+        } else {
+          _regular = _rate! * _hours!;
+          _extra = 0;
+          _total = _regular!;
+        }
+        _tax = _total! * 0.18;
+      }
     });
   }
 
@@ -93,48 +125,71 @@ class _MyHomePageState extends State<MyHomePage> {
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'Enter the amount of hours you worked',
+              child: TextField(
+                controller: rateController,
+                decoration: InputDecoration(
+                  hintText: 'Enter your hourly rate...',
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'Enter your hourly rate',
-                ),
+              child: TextField(
+                controller: hoursController,
+                decoration: InputDecoration(
+                    hintText: 'Enter the amount of hours you worked...'),
               ),
             ),
             TextButton(
               style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
               ),
-              onPressed: () {},
+              onPressed: _calculatePay,
               child: Text('Calculate'),
             ),
-            const Text(
-              'You have pushed the button this many times:',
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 100),
             ),
             Text(
-              '$_counter',
+              'REPORT',
+              style: Theme.of(context).textTheme.headline4,
+              textAlign: TextAlign.left,
+            ),
+            Text(
+              'Regular Pay: ' + _regular.toString(),
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            Text(
+              'Overtime Pay: ' + _extra.toString(),
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            Text(
+              'Total Pay: ' + _total.toString(),
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            Text(
+              'Tax: ' + _tax.toString(),
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            ),
+            Text(
+              'Adriana Diaz Torres',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            Text(
+              '301157161',
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
