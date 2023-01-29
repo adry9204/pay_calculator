@@ -74,7 +74,6 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
       _rate = double.tryParse(rateController.text);
       _hours = double.tryParse(hoursController.text);
 
@@ -158,6 +157,9 @@ class _MyHomePageState extends State<MyHomePage> {
               'REPORT',
               style: Theme.of(context).textTheme.headline4,
               textAlign: TextAlign.left,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             ),
             Text(
               'Regular Pay: ' + _regular.toString(),
