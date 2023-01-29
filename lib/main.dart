@@ -152,8 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Calculate'),
             ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 100),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
             ),
             Text(
               'REPORT',
@@ -177,15 +176,25 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.headline6,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
             ),
-            Text(
-              'Adriana Diaz Torres',
-              style: Theme.of(context).textTheme.headline4,
+            Container(
+              decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 133, 177, 235)),
+              width: 350,
+              child: Text(
+                'Adriana Diaz Torres',
+                style: Theme.of(context).textTheme.headline4,
+              ),
             ),
-            Text(
-              '301157161',
-              style: Theme.of(context).textTheme.headline4,
+            Container(
+              decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 133, 177, 235)),
+              width: 350,
+              child: Text(
+                '301157161',
+                style: Theme.of(context).textTheme.headline4,
+              ),
             ),
           ],
         ),
